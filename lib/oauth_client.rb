@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'oauth'
-require 'json'
-require 'mime/types'
 
 class OAuthClient
   
