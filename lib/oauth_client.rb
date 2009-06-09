@@ -78,12 +78,3 @@ end
 
 class OAuthUnauthorized < Exception
 end
-
-#demo
-class TwitterOAuth < OAuthClient
-  site 'http://twitter.com'
-
-  def user(page=1)
-    get_json("/statuses/user_timeline.json?page=#{page}")
-  end
-end
