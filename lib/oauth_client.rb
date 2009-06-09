@@ -5,6 +5,14 @@ require 'mime/types'
 
 class OAuthClient
   
+  # base site
+  class << self; attr_accessor :site end  
+
+  def self.site(site = nil)
+    @site = site if site
+    @site
+  end
+  
   def initialize(options = {})
     @consumer_key = options[:consumer_key]
     @consumer_secret = options[:consumer_secret]
@@ -36,7 +44,7 @@ class OAuthClient
       @consumer ||= OAuth::Consumer.new(
         @consumer_key,
         @consumer_secret,
-        { :site=>"http://twitter.com" }
+        { :site=> self.class.site }
       )
     end
 
@@ -44,3 +52,4 @@ class OAuthClient
       @access_token ||= OAuth::AccessToken.new(consumer, @token, @secret)
     end
 end
+
