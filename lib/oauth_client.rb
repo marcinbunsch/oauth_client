@@ -5,7 +5,9 @@ require 'json'
 class OAuthClient
   
   # base site
-  class << self; attr_accessor :site end  
+  class << self
+    attr_accessor :site 
+  end  
 
   def self.site(site = nil)
     @site = site if site
@@ -41,12 +43,12 @@ class OAuthClient
   
   # request helpers
   def get(url)
-    raise OAuthUnauthorized !if access_token
+    raise OAuthUnauthorized if !access_token
     access_token.get(url)
   end
   
   def post(url, params = {})
-    raise OAuthUnauthorized !if access_token
+    raise OAuthUnauthorized if !access_token
     access_token.post(url, params)
   end
   
@@ -74,4 +76,14 @@ class OAuthClient
     end
 end
 
-class OAuthUnauthorized < Error; end
+class OAuthUnauthorized < Exception
+end
+
+#demo
+class TwitterOAuth < OAuthClient
+  site 'http://twitter.com'
+
+  def user(page=1)
+    get_json("/statuses/user_timeline.json?page=#{page}")
+  end
+end
