@@ -6,15 +6,22 @@ Example:
 <pre><code>
 require 'oauth_client'	
 class TwitterOAuth < OAuthClient
-  site 'http://twitter.com' # specify the OAuth site
-
-	# and that's it
-  # afterwards you can implement methods for API access. Remember to use access_token for access.
-  # see this example from moomerman/twitter_oauth
-  def show(username)
-    oauth_response = access_token.get("/users/show/#{username}.json")
-    JSON.parse(oauth_response.body)
-  end
-
+  site 'http://twitter.com'
 end
 </code></pre>
+
+That's all you need to have a working OAuth client. Of course, it won't do anything just yet :) You need to implement specific methods for the API you're working with. Remember to user access_token to get access.
+
+See this example from moomerman/twitter_oauth:
+<pre><code>
+require 'oauth_client'	
+class TwitterOAuth < OAuthClient
+  site 'http://twitter.com'
+
+	def show(username)
+	  oauth_response = access_token.get("/users/show/#{username}.json")
+	  JSON.parse(oauth_response.body)
+	end
+end
+</code></pre>
+
