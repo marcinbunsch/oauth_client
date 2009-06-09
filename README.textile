@@ -16,8 +16,8 @@ class TwitterOAuth < OAuthClient
   site 'http://twitter.com'
 
   def show(username)
-	  oauth_response = access_token.get("/users/show/#{username}.json")
-	  JSON.parse(oauth_response.body) 
+    oauth_response = access_token.get("/users/show/#{username}.json")
+    JSON.parse(oauth_response.body) 
   end
 end</code></pre>
 
