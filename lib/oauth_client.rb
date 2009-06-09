@@ -52,4 +52,3 @@ class OAuthClient
       @access_token ||= OAuth::AccessToken.new(consumer, @token, @secret)
     end
 end
-
