@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'oauth'
+require 'json'
 
 class OAuthClient
   
@@ -18,6 +19,7 @@ class OAuthClient
     @secret = options[:secret]
   end
 
+  # authorization
   def authorize(token, secret)
     request_token = OAuth::RequestToken.new(
       consumer, token, secret
@@ -37,6 +39,27 @@ class OAuthClient
     consumer.get_request_token
   end
   
+  # request helpers
+  def get(url)
+    raise OAuthUnauthorized !if access_token
+    access_token.get(url)
+  end
+  
+  def post(url, params = {})
+    raise OAuthUnauthorized !if access_token
+    access_token.post(url, params)
+  end
+  
+  def get_json(url)
+    oauth_response = get(url)
+    JSON.parse(oauth_response.body)
+  end
+  
+  def post_json(url, params = {})
+    oauth_response = get(url, params)
+    JSON.parse(oauth_response.body)
+  end
+  
   private
     def consumer
       @consumer ||= OAuth::Consumer.new(
@@ -50,3 +73,5 @@ class OAuthClient
       @access_token ||= OAuth::AccessToken.new(consumer, @token, @secret)
     end
 end
+
+class OAuthUnauthorized < Error; end
