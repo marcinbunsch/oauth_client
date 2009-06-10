@@ -2,15 +2,15 @@
 
 Gem::Specification.new do |s|
   s.name = %q{oauth_client}
-  s.version = "0.1.1"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marcin Bunsch, ""Richard Taylor"]
   s.date = %q{2009-06-09}
   s.description = %q{Generic OAuth Client for Ruby, based on moomerman/twitter_oauth}
   s.email = %q{marcin@applicake.com}
-  s.files = ["README.textile", "lib/oauth_client.rb"]
-  s.has_rdoc = false
+  s.files = ["README.textile", "lib/oauth_client.rb", "lib/oauth_client/client.rb", "lib/oauth_client/exceptions.rb", "lib/oauth_client/adapters/json.rb"]
+  s.has_rdoc = true
   s.homepage = %q{http://github.com/marcinbunsch/oauth_client}
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
   s.require_paths = ["lib"]

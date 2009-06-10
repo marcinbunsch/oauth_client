@@ -2,25 +2,27 @@ h1. Generic OAuth Client for Ruby, based on moomerman/twitter_oauth
 
 *NOTE*: This is a very early version and has not been tested, give it some time :)
 
-This is a core OAuth Client, extracting core elements from the an awesome moomerman/twitter_oauth gem. This gem can be used to jump-start your new OAuth client.
+This is a core OAuth Client, extracting core elements from the an awesome moomerman/twitter_oauth gem and reorganizing them to give you tools to build your own client for an API of choice. This gem can be used to jump-start your new OAuth client.
 
 Example:
 <pre><code>require 'oauth_client'	
-class TwitterOAuth < OAuthClient
+class TwitterOAuth < OAuthClient::Client
   site 'http://twitter.com'
 end</code></pre>
 
-That's all you need to have a working OAuth client. Of course, it won't do anything just yet :) You need to implement specific methods for the API you're working with.
+That's all you need to have a working OAuth client which you can use to authorize with an OAuth server. Of course, it won't do anything just yet :) You need to implement specific methods for the API you're working with.
 
-You have a few helper methods to ease the trouble. OAuthClient#get and OAuthClient#post return the unparsed response from the server, whereas OAuthClient#get_json and OAuthClient#post_json parse JSON and return the result
+You have a few helper methods to ease the trouble. OAuthClient#get and OAuthClient#post return the unparsed response from the server. It includes an adapter for JSON, which will parse the response prior to returning it. To use it, call OAuthClient#json.get or OAuthClient#json.post.
 
 See this example from moomerman/twitter_oauth:
 <pre><code>module TwitterOauth
   class Client
+    [...]
     def user(page=1)
       oauth_response = access_token.get("/statuses/user_timeline.json?page=#{page}")
       JSON.parse(oauth_response.body)
     end
+		[...]
   end
 end
 </code></pre>
@@ -28,10 +30,17 @@ end
 with OAuthClient, it would look like this:
 
 <pre><code>require 'oauth_client'	
-class TwitterOAuth < OAuthClient
+class TwitterOAuth < OAuthClient::Client
   site 'http://twitter.com'
 
   def user(page=1)
-    get_json("/statuses/user_timeline.json?page=#{page}")
+    json.get("/statuses/user_timeline.json?page=#{page}")
   end
 end</code></pre>
+
+h2. Authors
+
+This gem has been built by hacking and modifing the twitter_oauth gem by Richard Taylor (http://github.com/moomerman). The core client authorization structure is taken from there.
+
+Banged together by Marcin Bunsch (http://github.com/marcinbunsch).
+
